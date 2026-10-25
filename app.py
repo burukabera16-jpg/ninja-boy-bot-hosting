@@ -76,7 +76,7 @@ with app.app_context():
 def get_fernet():
     secret = os.getenv("TOKEN_ENCRYPTION_KEY")
     if not secret:
-        secret = "f8k6c1uWnNw0Y9kA5d1i4c0w8x0F4Jq0"  # fallback only for dev usage
+        secret = "f8k6c1uWnNw0Y9kA5d1i4c0w8x0F4Jq0"
     if len(secret) < 32:
         secret = secret.ljust(32, "0")
     return Fernet(base64.urlsafe_b64encode(secret.encode()[:32].ljust(32, b"0")))
@@ -171,24 +171,27 @@ def login():
 
     return render_template_string('''
     <html>
-    <head><title>NINJA BOY | Login</title>
+    <head><title>🐉 ΝᏆΝᎫᎪ ᏴϴᎽ 🐲 | Login</title>
     <style>
-        body { margin:0; background:#090d0b; color:#eafef0; font-family:Arial,sans-serif; }
+        body { margin:0; background:radial-gradient(circle at top,#0d1713,#060a08 58%); color:#eafef0; font-family:Arial,sans-serif; }
         .wrap { min-height:100vh; display:grid; place-items:center; }
-        .card { background:#111915; border:1px solid rgba(66,255,170,0.3); border-radius:18px; padding:28px; width:min(420px,90vw); box-shadow:0 0 20px rgba(53,255,152,0.1); }
+        .card { background:linear-gradient(180deg,#111915,#0b120f); border:1px solid rgba(96,255,180,0.35); border-radius:20px; padding:30px; width:min(420px,90vw); box-shadow:0 0 24px rgba(53,255,152,0.14); }
+        .brand { font-size:2.2rem; letter-spacing:0.14em; color:#7afec0; font-weight:800; text-shadow:0 0 18px rgba(98,255,178,0.3); }
+        .tag { color:#9ad9b7; letter-spacing:0.2em; font-size:0.72rem; text-transform:uppercase; margin-bottom:18px; }
         h1 { margin-top:0; color:#76ffc2; }
-        input { width:100%; box-sizing:border-box; margin-top:8px; margin-bottom:12px; padding:12px 14px; border-radius:10px; border:1px solid rgba(118,255,194,0.2); background:#0b100d; color:white; }
-        button { width:100%; padding:13px; border:none; border-radius:10px; background:linear-gradient(135deg,#34f3a6,#1bbf7b); color:#07140d; font-weight:bold; }
+        input { width:100%; box-sizing:border-box; margin-top:8px; margin-bottom:12px; padding:12px 14px; border-radius:10px; border:1px solid rgba(118,255,194,0.25); background:#0b100d; color:white; }
+        button { width:100%; padding:13px; border:none; border-radius:12px; background:linear-gradient(135deg,#34f3a6,#1bbf7b); color:#07140d; font-weight:900; box-shadow:0 0 18px rgba(51,255,158,0.35); }
     </style>
     </head>
     <body>
     <div class='wrap'>
       <div class='card'>
-        <h1>🐉 NINJA BOY</h1>
+        <div class='brand'>🐉 ΝᏆΝᎫᎪ ᏴϴᎽ 🐲</div>
+        <div class='tag'>BOT HOSTING PANEL</div>
         <form method='POST'>
           <label>Username<input name='username' required></label>
           <label>Password<input name='password' type='password' required></label>
-          <button type='submit'>Login</button>
+          <button type='submit'>Access Panel</button>
         </form>
       </div>
     </div>
@@ -223,18 +226,19 @@ def dashboard():
 
     return render_template_string('''
     <html>
-    <head><title>NINJA BOY Dashboard</title>
+    <head><title>🐉 ΝᏆΝᎫᎪ ᏴϴᎽ 🐲 | Dashboard</title>
     <style>
-      body { margin:0; background:#090d0b; color:#eafef0; font-family:Arial,sans-serif; }
+      body { margin:0; background:radial-gradient(circle at top,#0d1713,#060a08 58%); color:#eafef0; font-family:Arial,sans-serif; }
       .layout { display:flex; min-height:100vh; }
-      .sidebar { width:220px; background:#101814; padding:24px; border-right:1px solid rgba(90,255,175,0.2); }
-      .brand { font-weight:bold; color:#76ffc2; letter-spacing:0.12em; }
-      .nav a { display:block; color:#eafef0; text-decoration:none; padding:10px 12px; margin:8px 0; border-radius:10px; background:rgba(255,255,255,0.02); }
+      .sidebar { width:230px; background:#0f1713; padding:24px; border-right:1px solid rgba(90,255,175,0.2); }
+      .brand { font-weight:900; color:#7afec0; letter-spacing:0.12em; font-size:1.12rem; text-shadow:0 0 16px rgba(98,255,178,0.3); }
+      .nav a { display:block; color:#eafef0; text-decoration:none; padding:11px 12px; margin:8px 0; border-radius:10px; background:rgba(255,255,255,0.02); }
+      .nav a:hover { border:1px solid rgba(90,255,175,0.25); }
       .content { flex:1; padding:28px; }
       .topbar { display:flex; justify-content:space-between; align-items:center; }
       .status { padding:8px 12px; border-radius:999px; background:rgba(51,255,158,0.08); border:1px solid rgba(51,255,158,0.35); color:#8dffbd; }
       .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:16px; margin-top:18px; }
-      .card { background:#111915; border:1px solid rgba(85,255,170,0.18); border-radius:16px; padding:18px; }
+      .card { background:linear-gradient(180deg,#121b18,#0c110f); border:1px solid rgba(85,255,170,0.18); border-radius:16px; padding:18px; }
       .big { font-size:2.3rem; font-weight:bold; }
       .actions { display:flex; flex-wrap:wrap; gap:12px; margin:22px 0; }
       .btn { padding:11px 16px; border-radius:12px; border:1px solid rgba(90,255,175,0.25); text-decoration:none; color:#07140d; background:linear-gradient(135deg,#39f7aa,#1ecb7e); font-weight:bold; }
@@ -246,7 +250,8 @@ def dashboard():
     <body>
     <div class='layout'>
       <aside class='sidebar'>
-        <div class='brand'>🐉 NINJA BOY</div>
+        <div class='brand'>🐉 ΝᏆΝᎫᎪ ᏴϴᎽ 🐲</div>
+        <div style='margin:12px 0 18px; color:#9bc7ae; letter-spacing:0.14em; font-size:0.7rem; text-transform:uppercase;'>BOT HOSTING</div>
         <nav class='nav'>
           <a href='/dashboard'>Dashboard</a>
           <a href='/bot-profile'>Bot Profile</a>
@@ -259,7 +264,7 @@ def dashboard():
       <main class='content'>
         <div class='topbar'>
           <div>
-            <div>Administrator</div>
+            <div style='color:#9bc7ae; letter-spacing:0.12em; text-transform:uppercase; font-size:0.72rem;'>Administrator</div>
             <h2>{{ username }}</h2>
           </div>
           <div class='status'>System Status: ONLINE</div>
@@ -317,7 +322,7 @@ def bot_profile():
             return render_template_string('''
             <html>
             <head><title>Telegram Bot Profile</title>
-            <style>body{margin:0;background:#090d0b;color:#ebfff4;font-family:Arial,sans-serif;} .wrap{padding:28px;} .card{background:#111915;border:1px solid rgba(85,255,170,0.22);border-radius:18px;padding:20px;max-width:700px;margin:auto;} img{width:90px;height:90px;border-radius:50%;object-fit:cover;background:#0b100d;border:1px solid rgba(85,255,170,0.22);} .name{font-size:2rem;font-weight:bold;} .meta{color:#c4d7cb;} .row{display:flex;gap:18px;align-items:center;} .btn{padding:10px 14px;border-radius:10px;background:linear-gradient(135deg,#39f7aa,#1ecb7e);color:#07140d;text-decoration:none;font-weight:bold;display:inline-block;margin-top:12px;} form{margin-top:18px;} input, textarea{width:100%;box-sizing:border-box;background:#0b100d;color:white;border:1px solid rgba(85,255,170,0.18);padding:12px;border-radius:10px;margin:8px 0;} button{padding:12px 18px;border:none;border-radius:10px;background:#2bf4a7;color:#06120d;font-weight:bold;}</style></head>
+            <style>body{margin:0;background:radial-gradient(circle at top,#0d1713,#060a08 58%);color:#ebfff4;font-family:Arial,sans-serif;} .wrap{padding:28px;} .card{background:linear-gradient(180deg,#111915,#0b120f);border:1px solid rgba(85,255,170,0.22);border-radius:18px;padding:20px;max-width:700px;margin:auto;} img{width:90px;height:90px;border-radius:50%;object-fit:cover;background:#0b100d;border:1px solid rgba(85,255,170,0.22);} .name{font-size:2rem;font-weight:bold;} .meta{color:#c4d7cb;} .row{display:flex;gap:18px;align-items:center;} .btn{padding:10px 14px;border-radius:10px;background:linear-gradient(135deg,#39f7aa,#1ecb7e);color:#07140d;text-decoration:none;font-weight:bold;display:inline-block;margin-top:12px;} form{margin-top:18px;} input, textarea, select{width:100%;box-sizing:border-box;background:#0b100d;color:white;border:1px solid rgba(85,255,170,0.18);padding:12px;border-radius:10px;margin:8px 0;} button{padding:12px 18px;border:none;border-radius:10px;background:#2bf4a7;color:#06120d;font-weight:bold;}</style></head>
             <body>
             <div class='wrap'>
               <div class='card'>
@@ -356,7 +361,7 @@ def bot_profile():
             return f"Invalid Telegram token or API error: {redact(str(exc))}", 400
 
     return render_template_string('''
-    <html><head><title>Telegram Bot Profile</title><style>body{margin:0;background:#090d0b;color:#ecffef;font-family:Arial,sans-serif;} .wrap{min-height:100vh;display:grid;place-items:center;} .card{background:#111915;border:1px solid rgba(85,255,170,0.22);padding:24px;border-radius:18px;width:min(520px,90vw);} input,button{width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid rgba(85,255,170,0.2);margin-top:10px;background:#0c120f;color:white;} button{background:linear-gradient(135deg,#35f8ab,#1bcf7e);color:#05120d;font-weight:bold;border:none;}</style></head><body><div class='wrap'><div class='card'><h2>🤖 Telegram Bot Profile</h2><form method='POST'><input name='token' placeholder='Paste Telegram bot token' required><button type='submit'>Read Profile</button></form></div></div></body></html>
+    <html><head><title>🐉 ΝᏆΝᎫᎪ ᏴϴᎽ 🐲 | Bot Profile</title><style>body{margin:0;background:radial-gradient(circle at top,#0d1713,#060a08 58%);color:#ecffef;font-family:Arial,sans-serif;} .wrap{min-height:100vh;display:grid;place-items:center;} .card{background:linear-gradient(180deg,#111915,#0b120f);border:1px solid rgba(85,255,170,0.22);padding:24px;border-radius:18px;width:min(520px,90vw);box-shadow:0 0 24px rgba(53,255,152,0.1);} .brand{font-size:2rem;font-weight:800;color:#7afec0;letter-spacing:0.12em;text-transform:uppercase;} input,button{width:100%;box-sizing:border-box;padding:12px;border-radius:10px;border:1px solid rgba(85,255,170,0.2);margin-top:10px;background:#0c120f;color:white;} button{background:linear-gradient(135deg,#35f8ab,#1bcf7e);color:#07140d;font-weight:bold;border:none;}</style></head><body><div class='wrap'><div class='card'><div class='brand'>🐉 ΝᏆΝᎫᎪ ᏴϴᎽ 🐲</div><h2 style='margin-top:8px;'>Bot Profile Reader</h2><form method='POST'><input name='token' placeholder='Paste Telegram bot token' required><button type='submit'>Read Profile</button></form></div></div></body></html>
     ''')
 
 
@@ -411,7 +416,7 @@ def bots():
         return redirect("/login")
     bot_list = Bot.query.order_by(Bot.created_at.desc()).all()
     return render_template_string('''
-    <html><head><title>Manage Bots</title><style>body{margin:0;background:#090d0b;color:#ebfff4;font-family:Arial,sans-serif;} .wrap{padding:24px;} .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;} .card{background:#111915;border:1px solid rgba(85,255,170,0.2);padding:18px;border-radius:16px;} .top{display:flex;align-items:center;gap:14px;} img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:1px solid rgba(85,255,170,0.28);} .name{font-weight:bold;font-size:1.2rem;} .meta{color:#c2d7c9; font-size:0.9rem;} .actions a{display:inline-block;margin-right:8px;margin-top:12px;color:#98ffd7;text-decoration:none;} .back{color:#8ef7c0;text-decoration:none;display:inline-block;margin-bottom:18px;} </style></head><body><div class='wrap'><a href='/dashboard' class='back'>← Dashboard</a><div class='grid'>{% for bot in bots %}<div class='card'><div class='top'><img src='{{ bot.profile_image_ref or "https://ui-avatars.com/api/?name=" + bot.display_name + "&background=0d1a14&color=7dffc9&size=128" }}'><div><div class='name'>{{ bot.display_name }}</div><div class='meta'>@{{ bot.username }}</div></div></div><div class='meta'>Bot ID: {{ bot.telegram_bot_id }}</div><div class='meta'>Status: {{ bot.status }}</div><div class='meta'>Worker: {{ bot.worker_assignment }}</div><div class='actions'><a href='/bot/{{ bot.id }}'>View Details</a><a href='/api/bot/{{ bot.id }}/start'>Start</a><a href='/api/bot/{{ bot.id }}/stop'>Stop</a><a href='/api/bot/{{ bot.id }}/restart'>Restart</a></div></div>{% endfor %}</div></div></body></html>
+    <html><head><title>Manage Bots</title><style>body{margin:0;background:radial-gradient(circle at top,#0d1713,#060a08 58%);color:#ebfff4;font-family:Arial,sans-serif;} .wrap{padding:24px;} .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;} .card{background:linear-gradient(180deg,#111915,#0b120f);border:1px solid rgba(85,255,170,0.2);padding:18px;border-radius:16px;} .top{display:flex;align-items:center;gap:14px;} img{width:56px;height:56px;border-radius:50%;object-fit:cover;border:1px solid rgba(85,255,170,0.28);} .name{font-weight:bold;font-size:1.2rem;} .meta{color:#c2d7c9; font-size:0.9rem;} .actions a{display:inline-block;margin-right:8px;margin-top:12px;color:#98ffd7;text-decoration:none;} .back{color:#8ef7c0;text-decoration:none;display:inline-block;margin-bottom:18px;} .brand{font-weight:900;color:#7afec0;letter-spacing:0.12em;}</style></head><body><div class='wrap'><div class='brand'>🐉 ΝᏆΝᎫᎪ ᏴϴᎽ 🐲</div><a href='/dashboard' class='back'>← Dashboard</a><div class='grid'>{% for bot in bots %}<div class='card'><div class='top'><img src='{{ bot.profile_image_ref or "https://ui-avatars.com/api/?name=" + bot.display_name + "&background=0d1a14&color=7dffc9&size=128" }}'><div><div class='name'>{{ bot.display_name }}</div><div class='meta'>@{{ bot.username }}</div></div></div><div class='meta'>Bot ID: {{ bot.telegram_bot_id }}</div><div class='meta'>Status: {{ bot.status }}</div><div class='meta'>Worker: {{ bot.worker_assignment }}</div><div class='actions'><a href='/bot/{{ bot.id }}'>View Details</a><a href='/api/bot/{{ bot.id }}/start'>Start</a><a href='/api/bot/{{ bot.id }}/stop'>Stop</a><a href='/api/bot/{{ bot.id }}/restart'>Restart</a></div></div>{% endfor %}</div></div></body></html>
     ''', bots=bot_list)
 
 
@@ -421,7 +426,7 @@ def bot_detail(bot_id):
         return redirect("/login")
     bot = Bot.query.get_or_404(bot_id)
     return render_template_string('''
-    <html><head><title>Bot Details</title><style>body{margin:0;background:#090d0b;color:#ebfff4;font-family:Arial,sans-serif;} .card{max-width:700px;margin:30px auto;background:#111915;border:1px solid rgba(90,255,175,0.2);padding:20px;border-radius:18px;} img{width:88px;height:88px;border-radius:50%;object-fit:cover;} .label{color:#bfe7d2;} .value{font-weight:bold;}</style></head><body><div class='card'><img src='{{ bot.profile_image_ref or "https://ui-avatars.com/api/?name=" + bot.display_name + "&background=0d1a14&color=7dffc9&size=128" }}'><h2>{{ bot.display_name }}</h2><div class='label'>Username</div><div class='value'>@{{ bot.username }}</div><div class='label'>Telegram ID</div><div class='value'>{{ bot.telegram_bot_id }}</div><div class='label'>Status</div><div class='value'>{{ bot.status }}</div><div class='label'>Worker Assignment</div><div class='value'>{{ bot.worker_assignment }}</div></div></body></html>
+    <html><head><title>Bot Details</title><style>body{margin:0;background:radial-gradient(circle at top,#0d1713,#060a08 58%);color:#ebfff4;font-family:Arial,sans-serif;} .card{max-width:700px;margin:30px auto;background:linear-gradient(180deg,#111915,#0b120f);border:1px solid rgba(90,255,175,0.2);padding:20px;border-radius:18px;} img{width:88px;height:88px;border-radius:50%;object-fit:cover;} .label{color:#bfe7d2;} .value{font-weight:bold;}</style></head><body><div class='card'><img src='{{ bot.profile_image_ref or "https://ui-avatars.com/api/?name=" + bot.display_name + "&background=0d1a14&color=7dffc9&size=128" }}'><h2>{{ bot.display_name }}</h2><div class='label'>Username</div><div class='value'>@{{ bot.username }}</div><div class='label'>Telegram ID</div><div class='value'>{{ bot.telegram_bot_id }}</div><div class='label'>Status</div><div class='value'>{{ bot.status }}</div><div class='label'>Worker Assignment</div><div class='value'>{{ bot.worker_assignment }}</div></div></body></html>
     ''', bot=bot)
 
 
@@ -467,7 +472,7 @@ def upload_script():
 
     bots = Bot.query.all()
     return render_template_string('''
-    <html><head><title>Upload Python Script</title><style>body{margin:0;background:#090d0b;color:#ebfff4;font-family:Arial,sans-serif;} .wrap{display:grid;place-items:center;min-height:100vh;} .card{background:#111915;border:1px solid rgba(85,255,170,0.2);padding:24px;border-radius:18px;width:min(620px,90vw);} input,select,button{width:100%;box-sizing:border-box;padding:12px;border-radius:10px;margin-top:10px;background:#0c120f;color:white;border:1px solid rgba(85,255,170,0.2);} button{background:linear-gradient(135deg,#35f8ab,#1bcf7e);color:#07140d;font-weight:bold;border:none;}</style></head><body><div class='wrap'><div class='card'><h2>Upload Python Script</h2><form method='POST' enctype='multipart/form-data'><select name='bot_id'>{% for bot in bots %}<option value='{{ bot.id }}'>{{ bot.display_name }} (@{{ bot.username }})</option>{% endfor %}</select><input type='file' name='script' accept='.py' required><button type='submit'>Upload</button></form></div></div></body></html>
+    <html><head><title>Upload Python Script</title><style>body{margin:0;background:radial-gradient(circle at top,#0d1713,#060a08 58%);color:#ebfff4;font-family:Arial,sans-serif;} .wrap{display:grid;place-items:center;min-height:100vh;} .card{background:linear-gradient(180deg,#111915,#0b120f);border:1px solid rgba(85,255,170,0.2);padding:24px;border-radius:18px;width:min(620px,90vw);box-shadow:0 0 24px rgba(53,255,152,0.1);} input,select,button{width:100%;box-sizing:border-box;padding:12px;border-radius:10px;margin-top:10px;background:#0c120f;color:white;border:1px solid rgba(85,255,170,0.2);} button{background:linear-gradient(135deg,#35f8ab,#1bcf7e);color:#07140d;font-weight:bold;border:none;}</style></head><body><div class='wrap'><div class='card'><h2>🐉 ΝᏆΝᎫᎪ ᏴϴᎽ 🐲</h2><h3>Upload Python Script</h3><form method='POST' enctype='multipart/form-data'><select name='bot_id'>{% for bot in bots %}<option value='{{ bot.id }}'>{{ bot.display_name }} (@{{ bot.username }})</option>{% endfor %}</select><input type='file' name='script' accept='.py' required><button type='submit'>Upload</button></form></div></div></body></html>
     ''', bots=bots)
 
 
@@ -477,7 +482,7 @@ def logs():
         return redirect("/login")
     jobs = Job.query.order_by(Job.created_at.desc()).all()
     return render_template_string('''
-    <html><head><title>Bot Logs</title><style>body{margin:0;background:#090d0b;color:#ebfff4;font-family:Arial,sans-serif;} .wrap{padding:24px;} table{width:100%;border-collapse:collapse;} th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.08);text-align:left;} .empty{padding:20px;background:#111915;border:1px solid rgba(85,255,170,0.2);border-radius:16px;} .error{color:#ff9a9a;} .normal{color:#d9fbe3;}</style></head><body><div class='wrap'><h2>Bot Logs</h2>{% if not jobs %}<div class='empty'>No logs available yet.</div>{% else %}<table><tr><th>Timestamp</th><th>Bot</th><th>State</th><th>Log</th><th>Exit</th></tr>{% for job in jobs %}<tr><td>{{ job.created_at }}</td><td>{{ job.bot_id }}</td><td>{{ job.process_state }}</td><td class='{% if "error" in job.logs.lower() %}error{% else %}normal{% endif %}'>{{ job.logs[:200] }}</td><td>{{ job.exit_code if job.exit_code is not none else "-" }}</td></tr>{% endfor %}</table>{% endif %}</div></body></html>
+    <html><head><title>Bot Logs</title><style>body{margin:0;background:radial-gradient(circle at top,#0d1713,#060a08 58%);color:#ebfff4;font-family:Arial,sans-serif;} .wrap{padding:24px;} table{width:100%;border-collapse:collapse;} th,td{padding:12px;border-bottom:1px solid rgba(255,255,255,0.08);text-align:left;} .empty{padding:20px;background:#111915;border:1px solid rgba(85,255,170,0.2);border-radius:16px;} .error{color:#ff9a9a;} .normal{color:#d9fbe3;}</style></head><body><div class='wrap'><h2>🐉 ΝᏆΝᎫᎪ ᏴϴᎽ 🐲 | Logs</h2>{% if not jobs %}<div class='empty'>No logs available yet.</div>{% else %}<table><tr><th>Timestamp</th><th>Bot</th><th>State</th><th>Log</th><th>Exit</th></tr>{% for job in jobs %}<tr><td>{{ job.created_at }}</td><td>{{ job.bot_id }}</td><td>{{ job.process_state }}</td><td class='{% if "error" in job.logs.lower() %}error{% else %}normal{% endif %}'>{{ job.logs[:200] }}</td><td>{{ job.exit_code if job.exit_code is not none else "-" }}</td></tr>{% endfor %}</table>{% endif %}</div></body></html>
     ''', jobs=jobs)
 
 
@@ -491,7 +496,6 @@ def start_bot(bot_id):
     if not script:
         return jsonify({"error": "No Python script uploaded for this bot."}), 400
 
-    # Worker API is expected to be running separately in production.
     try:
         import requests
         worker_url = os.getenv("WORKER_API_URL", "http://localhost:9001")
